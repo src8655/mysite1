@@ -13,6 +13,37 @@ import com.cafe24.mysite.vo.BoardVo;
 
 
 public class BoardDao {
+	public boolean delete(Long no) {
+		boolean result = false;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = getConnection();
+			
+			String sql = "delete from board"
+					+ " where no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setLong(1, no);
+			int count = pstmt.executeUpdate();
+			
+			if(count == 1) result = true;
+			
+			
+		} catch(SQLException e) {
+			System.out.println("error" + e);
+		}finally {
+			try {
+				if(pstmt != null) pstmt.close();
+				if(con != null) con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return result;
+	}
 	public boolean update(BoardVo vo) {
 		boolean result = false;
 		
@@ -92,7 +123,7 @@ public class BoardDao {
 		
 		return result;
 	}
-	public List<BoardVo> getList() {
+	public List<BoardVo> getList(String kwd) {
 		List<BoardVo> result = new ArrayList<BoardVo>();
 		
 		Connection con = null;
@@ -104,9 +135,11 @@ public class BoardDao {
 			
 			String sql = "select a.no, a.subject, a.hit, date_format(a.write_date, \'%Y-%m-%d\'), b.name" + 
 					" from board a, user b"
-					+ " where a.user_no=b.no" + 
+					+ " where a.user_no=b.no"
+					+ " and subject like ?" + 
 					" order by no desc";
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, "%"+kwd+"%");
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -150,38 +183,6 @@ public class BoardDao {
 			pstmt.setString(2, vo.getContents());
 			pstmt.setLong(3, vo.getHit());
 			pstmt.setLong(4, vo.getUserNo());
-			
-			int count = pstmt.executeUpdate();
-			
-			if(count == 1) result = true;
-			
-		} catch(SQLException e) {
-			System.out.println("error" + e);
-		}finally {
-			try {
-				if(pstmt != null) pstmt.close();
-				if(con != null) con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return result;
-	}
-
-	public boolean delete(BoardVo vo) {
-		boolean result = false;
-		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			con = getConnection();
-			
-			String sql = "delete from board where no=? and user_no=?";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setLong(1, vo.getNo());
-			pstmt.setLong(2, vo.getUserNo());
 			
 			int count = pstmt.executeUpdate();
 			

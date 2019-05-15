@@ -13,9 +13,9 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"></c:import>
 		<div id="content">
 			<div id="board">
-				<form id="search_form" action="./board" method="post">
+				<form id="search_form" action="./board" method="get">
 					<input type="hidden" name="a" value="list" />
-					<input type="text" id="kwd" name="kwd" value="">
+					<input type="text" id="kwd" name="kwd" value="${kwd_decode}">
 					<input type="submit" value="찾기">
 				</form>
 				<table class="tbl-ex">
@@ -30,17 +30,17 @@
 					<c:forEach items="${list}" var="data">
 					<tr>
 						<td>${cnt}</td>
-						<td><a href="./board?a=view&no=${data.no}">${data.subject}</a></td>
+						<td><a href="./board?a=view&no=${data.no}&kwd=${kwd_encode}">${data.subject}</a></td>
 						<td>${data.userName}</td>
 						<td>${data.hit}</td>
 						<td>${data.writeDate}</td>
-						<td><a href="./board?a=delete&no=${data.no}">삭제</a></td>
+						<td><a href="./board?a=delete&no=${data.no}&kwd=${kwd_encode}">삭제</a></td>
 					</tr>
 					<c:set var="cnt" scope="page" value="${cnt-1}"></c:set>
 					</c:forEach>
 				</table>
 				<div class="bottom">
-					<a href="./board?a=write" id="new-book">글쓰기</a>
+					<a href="./board?a=write&kwd=${kwd_encode}" id="new-book">글쓰기</a>
 				</div>				
 			</div>
 		</div>

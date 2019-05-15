@@ -1,6 +1,8 @@
 package com.cafe24.mysite.action.board;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,12 @@ public class DeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String kwd = request.getParameter("kwd");
+		if(kwd == null) kwd = "";
+		String kwd_decode = URLDecoder.decode(kwd, "utf-8");
+		String kwd_encode = URLEncoder.encode(kwd_decode, "utf-8");
+		
+		
 		Long no = Long.parseLong(request.getParameter("no"));
 		
 		HttpSession session = request.getSession();
@@ -39,7 +47,9 @@ public class DeleteAction implements Action {
 			return;
 		}
 		
-		WebUtil.redirect(request, response, "./board?a=list");
+		boardDao.delete(boardVo.getNo());
+		
+		WebUtil.redirect(request, response, "./board?a=list&kwd="+kwd_encode);
 	}
 
 }

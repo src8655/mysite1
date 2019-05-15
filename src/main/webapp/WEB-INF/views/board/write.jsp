@@ -31,7 +31,7 @@
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="./board?a=list">취소</a>
+						<a href="./board?a=list&kwd=${kwd_encode}">취소</a>
 						<input type="submit" value="등록">
 					</div>
 				</form>				

@@ -39,8 +39,8 @@
 					</tr>
 				</table>
 				<div class="bottom">
-					<a href="./board?a=list">글목록</a>
-					<a href="./board?a=modify&no=${boardVo.no}">글수정</a>
+					<a href="./board?a=list&kwd=${kwd_encode}">글목록</a>
+					<a href="./board?a=modify&no=${boardVo.no}&kwd=${kwd_encode}">글수정</a>
 				</div>
 			</div>
 		</div>

@@ -16,6 +16,7 @@
 				<form class="board-form" method="post" action="./board">
 				<input type="hidden" name="a" value="modifypost" />
 				<input type="hidden" name="no" value="${boardVo.no}" />
+				<input type="hidden" name="kwd" value="${kwd_decode}" />
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>
@@ -32,7 +33,7 @@
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="./board?a=view&no=${boardVo.no}">취소</a>
+						<a href="./board?a=view&no=${boardVo.no}&kwd=${kwd_encode}">취소</a>
 						<input type="submit" value="수정">
 					</div>
 				</form>				
