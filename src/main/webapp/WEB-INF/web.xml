@@ -9,6 +9,15 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>/WEB-INF/applicationContext.xml</param-value>
+  </context-param>
+  
+  
+  
   <filter>
     <filter-name>EncodingFilter</filter-name>
     <filter-class>com.cafe24.web.filter.EncodingFilter</filter-class>
@@ -24,6 +33,10 @@
   <servlet>
     <servlet-name>MainServlet</servlet-name>
     <servlet-class>com.cafe24.mysite.controller.MainServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/servlet-context.xml</param-value>
+    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>MainServlet</servlet-name>
@@ -63,4 +76,7 @@
     <servlet-name>BoardServlet</servlet-name>
     <url-pattern>/board</url-pattern>
   </servlet-mapping>
+  <listener>
+    <listener-class>com.cafe24.mysite.listener.ContextLoadListener</listener-class>
+  </listener>
 </web-app>

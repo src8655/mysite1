@@ -34,7 +34,7 @@
 						<td>${data.userName}</td>
 						<td>${data.hit}</td>
 						<td>${data.writeDate}</td>
-						<td><a href="./board?a=delete&no=${data.no}" class="del">삭제</a></td>
+						<td><a href="./board?a=delete&no=${data.no}">삭제</a></td>
 					</tr>
 					<c:set var="cnt" scope="page" value="${cnt-1}"></c:set>
 					</c:forEach>
