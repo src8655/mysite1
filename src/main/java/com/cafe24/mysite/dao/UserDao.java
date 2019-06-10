@@ -21,7 +21,7 @@ public class UserDao {
 		try {
 			con = getConnection();
 			
-			String sql = "update user set"
+			String sql = "update member set"
 					+ " name=?,"
 					+ " password=?,"
 					+ " gender=?"
@@ -59,7 +59,7 @@ public class UserDao {
 			con = getConnection();
 			
 			String sql = "select no, name, email, password, gender" + 
-					" from user"
+					" from member"
 					+ " where no=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setLong(1, no);
@@ -100,7 +100,7 @@ public class UserDao {
 			con = getConnection();
 			
 			String sql = "select no, name" + 
-					" from user"
+					" from member"
 					+ " where email=?"
 					+ " and password=?";
 			pstmt = con.prepareStatement(sql);
@@ -139,7 +139,7 @@ public class UserDao {
 		try {
 			con = getConnection();
 			
-			String sql = "insert into user values(null, ?, ?, ?, ?, now());";
+			String sql = "insert into member values(nextval('seq_user'), ?, ?, ?, ?, now());";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getEmail());
@@ -163,8 +163,25 @@ public class UserDao {
 		
 		return result;
 	}
-	
-	//커넥션 받는 함수
+
+	//커넥션 받는 함수 - postgreSQL
+	private Connection getConnection() throws SQLException {
+		Connection con = null;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			String url = "jdbc:postgresql://192.168.0.10:5432/webdb";
+			con = DriverManager.getConnection(url, "webdb", "webdb");
+			
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패 : " + e);
+		}
+		
+		
+		return con;
+	}
+	/*
+	//커넥션 받는 함수 - mariadb
 	private Connection getConnection() throws SQLException {
 		Connection con = null;
 		
@@ -181,4 +198,5 @@ public class UserDao {
 		
 		return con;
 	}
+	*/
 }

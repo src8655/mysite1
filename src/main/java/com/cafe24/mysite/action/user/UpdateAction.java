@@ -35,7 +35,7 @@ public class UpdateAction implements Action {
 		UserVo userVo = dao.get(authUser.getNo());
 		
 		userVo.setName(name);
-		userVo.setPassword(password);
+		if(!"".equals(password)) userVo.setPassword(password);
 		userVo.setGender(gender);
 		
 		dao.update(userVo);

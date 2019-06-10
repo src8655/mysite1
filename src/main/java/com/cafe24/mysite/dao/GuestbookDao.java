@@ -22,7 +22,7 @@ public class GuestbookDao {
 		try {
 			con = getConnection();
 			
-			String sql = "select no, name, contents, date_format(reg_date, \'%Y-%m-%d %h:%i:%s\')" + 
+			String sql = "select no, name, contents, to_char(reg_date, 'yyyy-mm-dd')" + 
 					" from guestbook" + 
 					" order by no desc";
 			pstmt = con.prepareStatement(sql);
@@ -62,7 +62,7 @@ public class GuestbookDao {
 		try {
 			con = getConnection();
 			
-			String sql = "insert into guestbook values(null, ?, ?, ?, now());";
+			String sql = "insert into guestbook values(nextval('seq_guestbook'), ?, ?, ?, now());";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, vo.getName());
 			pstmt.setString(2, vo.getPassword());
@@ -118,7 +118,24 @@ public class GuestbookDao {
 		return result;
 	}
 	
-	//커넥션 받는 함수
+	//커넥션 받는 함수 - postgreSQL
+	private Connection getConnection() throws SQLException {
+		Connection con = null;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			String url = "jdbc:postgresql://192.168.0.10:5432/webdb";
+			con = DriverManager.getConnection(url, "webdb", "webdb");
+			
+		} catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패 : " + e);
+		}
+		
+		
+		return con;
+	}
+	/*
+	//커넥션 받는 함수 - mariadb
 	private Connection getConnection() throws SQLException {
 		Connection con = null;
 		
@@ -135,4 +152,5 @@ public class GuestbookDao {
 		
 		return con;
 	}
+	*/
 }
